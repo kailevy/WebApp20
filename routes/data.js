@@ -4,7 +4,7 @@ var config = require('config');//setup file for the db.
 
 exports.postData = function(req, res) {
   //all of the req.body stuff are sent as part of the post req.
-  if (!req.body.time || !req.body.gps || !req.body.id) {
+  if (!req.body || !req.body.time || !req.body.gps || !req.body.id) {
     return res.status(400).json({error: true});
   }
   var time = req.body.time;
