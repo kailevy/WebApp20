@@ -4,6 +4,7 @@
   "description": "Baja Web App",
   "main": "index.js",
   "scripts": {
+    "karma": "./node_modules/karma/bin/karma start karma.conf.js",
     "mocha": "./node_modules/mocha/bin/mocha tests/server",
     "cover-mocha": "./node_modules/istanbul/lib/cli.js cover ./node_modules/mocha/bin/_mocha tests/server -- -R spec",
     "test": "npm run cover-mocha",
