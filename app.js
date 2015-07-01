@@ -11,12 +11,12 @@ var express = require('express'), //Makes the magic happen
 		bodyParser = require('body-parser'), 
 		cookieParser = require('cookie-parser'),
 		session = require('express-session'), //Sessions for user login
-		passport = require('passport') //passport to handle actual login
+		passport = require('passport'); //passport to handle actual login
 
 //Schemas will go here
 
 //route files will go here
-var dataCollection = require('./routes/data.js')
+var dataCollection = require('./routes/data.js');
 
 //initialize the app and connect DB
 var app = express();
@@ -41,9 +41,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', function(req, res){
   var url = path.resolve( __dirname + '/views/index.html');
   res.sendFile(url);
-})
+});
 
-app.post('/mobiledata', dataCollection.postData)
+app.post('/mobiledata', dataCollection.postData);
 //start the app
 app.listen(PORT, function() {
   console.log("Application running on port:", PORT);
