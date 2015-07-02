@@ -26,7 +26,7 @@ exports.postData = function(req, res) {
     sql += '('+t+','+latlng[0]+','+latlng[1]+','+as[0]+','+as[1]+','+as[2]+','+phone_id+'),';
   }
   //the sql query
-  config.db.query(sql, data, function(err, result){
+  config.db.query(sql, function(err, result){
     if (err) { //handle errors
       console.log('DB ERROR (mobile_data): ', err);
       return res.status(400).json({error: true});
