@@ -9,6 +9,12 @@
   	<link rel="stylesheet" href="../css/main.css"/>
   </head>
   <body>
+    <div class="nav-bar">
+      <ul>
+        <li ng-show="!loggedIn"><a href="/auth/google" target="_self">Login</a></li>
+        <li ng-show="loggedIn"><a href="/auth/google">Logout</a></li>
+      </ul> 
+    </div>
   	<div ng-view></div>
   </body>
 </html>

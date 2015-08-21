@@ -10,3 +10,4 @@
 /node_modules/mysql
 /node_modules/cookie-parser
 /node_modules/istanbul
+/coverage
