@@ -11,8 +11,25 @@
         	templateUrl : './pages/car.html',
           controller: 'CarController',
           controllerAs: 'car'
-        });
+        })
+				.when('/purchases',  {
+					templateUrl : './pages/purchases.html',
+					controller: 'PurchasesController'
+				});
     });
+
+app.controller('PurchasesController', function($scope, $log, $http) {
+	$http.get('purchase').success(function (data) {
+		$scope.purchases = data;
+	});
+
+	$scope.submitPurchase = function (purchase) {
+		$log.info($scope.purchase);	
+		$http.post('purchase', $scope.purchase).success(function (){
+			$log.info('submitted');
+		});
+	};
+});
 
     app.controller('CarController', ['$http', function($http){
 var gl;
@@ -81,13 +98,13 @@ function createGLContext(canvas) {
 
 function loadShaderFromDOM(id) {
   var shaderScript = document.getElementById(id);
-  
+
   // If we don't find an element with the specified id
-  // we do an early exit 
+  // we do an early exit
   if (!shaderScript) {
     return null;
   }
-  
+
   // Loop through the children for the found DOM element and
   // build up the shader source code as a string
   var shaderSource = "";
@@ -98,7 +115,7 @@ function loadShaderFromDOM(id) {
     }
     currentChild = currentChild.nextSibling;
   }
- 
+
   var shader;
   if (shaderScript.type == "x-shader/x-fragment") {
     shader = gl.createShader(gl.FRAGMENT_SHADER);
@@ -107,21 +124,21 @@ function loadShaderFromDOM(id) {
   } else {
     return null;
   }
- 
+
   gl.shaderSource(shader, shaderSource);
   gl.compileShader(shader);
- 
+
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
     alert(gl.getShaderInfoLog(shader));
     return null;
-  } 
+  }
   return shader;
 }
 
 function setupShaders() {
   vertexShader = loadShaderFromDOM("shader-vs");
   fragmentShader = loadShaderFromDOM("shader-fs");
-  
+
   shaderProgram = gl.createProgram();
   gl.attachShader(shaderProgram, vertexShader);
   gl.attachShader(shaderProgram, fragmentShader);
@@ -139,7 +156,7 @@ function setupShaders() {
   gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
   shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
   shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-  
+
 }
 
 function setupBuffers() {
@@ -149,7 +166,7 @@ function setupBuffers() {
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(triangleVertices), gl.STATIC_DRAW);
   vertexPositionBuffer.itemSize = 3;
   vertexPositionBuffer.numberOfItems = GLOBALS.cad.faces.length;
-    
+
   vertexColorBuffer = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexColorBuffer);
   var colors = [];
@@ -158,10 +175,10 @@ function setupBuffers() {
   }
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
   vertexColorBuffer.itemSize = 4;
-  vertexColorBuffer.numItems = triangleVertices.length/4;  
+  vertexColorBuffer.numItems = triangleVertices.length/4;
 }
 
-function draw() { 
+function draw() {
   console.log("Drawing");
   var transformVec = vec3.create();
 
@@ -174,22 +191,22 @@ function draw() {
   mvPushMatrix();
   vec3.set(transformVec,10.0,10.0,10.0);
   mat4.rotateX(mvMatrix, mvMatrix, angle*Math.PI/180);
-  mat4.rotateY(mvMatrix, mvMatrix, angle*Math.PI/180); 
-  mat4.rotateZ(mvMatrix, mvMatrix, angle*Math.PI/180); 
+  mat4.rotateY(mvMatrix, mvMatrix, angle*Math.PI/180);
+  mat4.rotateZ(mvMatrix, mvMatrix, angle*Math.PI/180);
   mat4.scale(mvMatrix, mvMatrix,transformVec);
 
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexPositionBuffer);
-  gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, 
+  gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,
                          vertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
   gl.bindBuffer(gl.ARRAY_BUFFER, vertexColorBuffer);
-  gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, 
+  gl.vertexAttribPointer(shaderProgram.vertexColorAttribute,
                             vertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-  
-  setMatrixUniforms();                      
+
+  setMatrixUniforms();
   gl.drawArrays(gl.TRIANGLES, 0, vertexPositionBuffer.numberOfItems);
 }
 
-function getCAD(callback) {  
+function getCAD(callback) {
   // var request = new XMLHttpRequest();
   // request.open('GET', '/test/JSON', true);
 
@@ -254,13 +271,13 @@ function init() {
     // canvas.width = 1000;
     gl = createGLContext(canvas);
     // document.body.appendChild(canvas);
-    setupShaders(); 
+    setupShaders();
     setupBuffers();
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
     draw();
     tick();
   });
-  
+
 }
 
 function tick() {

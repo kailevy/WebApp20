@@ -7,7 +7,7 @@ var dataSchema = mongoose.Schema({
 
 var purchaseSchema = mongoose.Schema({
     user: String,
-    item_name: String,
+    itemName: String,
     url: String,
     cost: Number,
     date: Date,

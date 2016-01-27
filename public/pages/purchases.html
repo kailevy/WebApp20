@@ -1,0 +1,30 @@
+<div ng-controller="PurchasesController">
+  <h1>Purchases</h1>
+  <form>
+    Item: <input type="text" ng-model="newPurchase.item">
+    Url: <input type="text" ng-model="newPurchase.url">
+    Cost: <input type="text" ng-model="newPurchase.cost">
+    Quantity: <input type="text" ng-model="newPurchase.quantity">
+    Notes: <input type="text" ng-model="newPurchase.notes">
+    <input type="submit" ng-click="submitPurchase(newPurchase)">
+  </form>
+  <table>
+    <th>Item</th>
+    <th>Date</th>
+    <th>Url</th>
+    <th>User</th>
+    <th>Status</th>
+    <th>Quantity</th>
+    <th>Cost</th>
+    <th>Notes</th>
+    <tr ng-repeat="purchase in purchases">
+      <td>{{purchase.item_name}}</td>
+      <td>{{purchase.date}}</td>
+      <td>{{purchase.url}}</td>
+      <td>{{purchase.user}}</td>
+      <td>{{purchase.status}}</td>
+      <td>{{purchase.quantity}}</td>
+      <td>{{purchase.notes}}</td>
+    </tr>
+  </table>
+</div>
